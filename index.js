@@ -9,7 +9,7 @@
 		       /**************************************************************************
 			  MODULE DEFINITION
 			**************************************************************************/
-			function getGithubData (callback) {
+			function getGithubData1(callback) {
 
 			  minixhr(url, response)
 
