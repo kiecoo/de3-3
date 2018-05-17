@@ -1,70 +1,20 @@
 // index.js
-   var minixhr = require('minixhr')
-   
     module.exports = getGithubData
   
     function getGithubData (fy_next) {
-		    var data1= getGithubData1()
-		    
-           
-		       /**************************************************************************
-			  MODULE DEFINITION
-			**************************************************************************/
-			function getGithubData1(callback) {
-
-			  minixhr(url, response)
-
-			  function response (json) {
-			    var userprofiles = localStorage['userprofiles']
-			    if (userprofiles) {
-			      return callback(JSON.parse(userprofiles))
-			    }
-
-			    var allusers = JSON.parse(json)
-			    // console.info(allusers)
-			    var userprofiles = []
-
-			    allusers.forEach(function (nameEach) {
-			      var reponame = nameEach.full_name
-			      var repoURL = 'https://api.github.com/repos/' + reponame
-			      minixhr(repoURL, response2)
-			     })
-			    function response2 (data) {
-			      var obj = JSON.parse(data)
-			      var repoFilesAndFoldersURL = obj.branches_url.replace('{/branch}', '/' + obj.default_branch)
-
-			      minixhr(repoFilesAndFoldersURL, function (data) {
-				var obj = JSON.parse(data)
-				var filesAndFoldersURL = obj.commit.commit.tree.url
-
-				minixhr(filesAndFoldersURL, function (data) {
-				  var obj = JSON.parse(data)
-				  obj.tree.forEach(function (file) {
-				    if (file.path === 'config.json') {
-				      var configJsonURL = file.url
-				      minixhr(configJsonURL, function (data) {
-					try {
-					  var obj = JSON.parse(data)
-					  var json = atob(obj.content)
-					  var profile = JSON.parse(json)
-					} catch (error) {
-					  profile = { name: 'error', url: configJsonURL }
-					}
-
-					userprofiles.push(profile)
-					if (allusers.length == userprofiles.length) {
-					  localStorage['userprofiles'] = JSON.stringify(userprofiles)
-					  callback(userprofiles)
-					}
-
-				      })
-				    }
-				  })
-				})
-			      })
-			    }
-			  }
-			}
+		    var data1= [
+            {
+                "repo": "nicco88/personal-portfolio",
+                "url": "https://api.github.com/repos/nicco88/personal-portfolio",
+                "username": "ninabreznik",
+                "time": "2018-04-01T17:50:29Z"
+            },
+            {
+                  "repo": "freeCodeCamp/devdocs",
+                  "url": "https://api.github.com/repos/freeCodeCamp/devdocs",
+                  "username": "serapath",
+                  "time": "2018-03-27T04:51:07Z"
+            }]
             
 		    fy_next(data1)
 	  }
