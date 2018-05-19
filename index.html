@@ -1,5 +1,4 @@
-// add loadData(copied from 3-2)
-
+//  move document.body.innerHTML = '' // to clear and remove the signup button
 <!doctype html>
 <html>
   <head>
@@ -10,6 +9,7 @@
     <script>
       var bel = require('bel')
       var csjs = require('csjs-inject')
+
       /******************************************************************************
         THEME
       ******************************************************************************/
@@ -22,11 +22,13 @@
       var font_ubuntu = 'Ubuntu, sans-serif'
       document.head.appendChild(fontAwesome)
       document.head.appendChild(fontUbuntu)
+
       var backgroundWhite = '#f6f6f6'
       var fontGrey        = '#606060'
       var borderGrey      = '#fafafa'
       var green           = '#2a9c6d'
       var red             = '#d41304'
+
       var css = csjs`
       .card {
         display: flex;
@@ -167,12 +169,15 @@
       `
       var getGithubData    = require('./index.js')
       var makeSignupButton = require('./githubsignin.js')
+
+
       /******************************************************************************
         SIGNUP BUTTON
       ******************************************************************************/
       var GITHUB_CLIENT_ID = '62483029222d02636782'
       var button = makeSignupButton(GITHUB_CLIENT_ID)
-      document.body.appendChild(button)
+      
+
       /******************************************************************************
         SIGNUP BUTTON
       ******************************************************************************/
@@ -182,8 +187,9 @@
         if (code) {
           loadCode (error, code)
         } else {
-          // show page with github signin button
+          document.body.appendChild(button)
         }
+
         // this is triggered when the user clicks the button
         function loadCode (error, code) {
           if (error) return console.error(error)
@@ -193,11 +199,10 @@
         function loadData (error, data) {
           if (error) return console.error(error)
           console.log(`github sent us lots of data, so lets use it to build the page :-)`)
-          // I don't know how to deal with these 4 lines & function next(L212)
-          var el = next(data)  // I am not sure if using next(data) is right.
-          fx_done(el)
+
           document.body.innerHTML = '' // to clear and remove the signup button
-          document.body.appendChild(el)
+          var el = next(data)  
+          fx_done(el)          
         }
         // getGithubData (next)
         /*
@@ -263,12 +268,15 @@
           }
         }
       }
+
       profile(done)
+
       // function done (el) { document.body.appendChild(el) }
       function done (error, el) {
         if (error) return console.error(error) // or `document.body.innerHTML = `<h1>${error}</h1>`
         document.body.appendChild(el)
       }
+
     </script>
   </body>
 </html>
